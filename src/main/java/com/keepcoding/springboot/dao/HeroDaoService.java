@@ -3,20 +3,19 @@ package com.keepcoding.springboot.dao;
 import com.keepcoding.springboot.model.Hero;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class HeroDaoService {
 
     private static int id;
-    private static List <Hero> heroes= Arrays.asList(
-            new Hero( 1, "Peter Parker", "Spiderman", new Date()),
-            new Hero( 2, "Tony Stark", "Ironman", new Date()),
-            new Hero( 3, "Bruce Banner", "Hulk", new Date())
-            );
+    private static List<Hero> heroes= new ArrayList<>();
+
+    static {
+        heroes.add(new Hero(1, "Peter Parker", "Spiderman", new Date()));
+        heroes.add(new Hero(2, "Tony Stark", "Ironman", new Date()));
+        heroes.add(new Hero(1, "Bruce Banner", "Hulk", new Date()));
+    }
 
     private static int counter = 3;
 
