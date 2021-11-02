@@ -1,12 +1,14 @@
 package com.keepcoding.springboot.dao;
 
 import com.keepcoding.springboot.model.Hero;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+@Service
 public class HeroDaoService {
 
     private static int id;
