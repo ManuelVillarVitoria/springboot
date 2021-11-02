@@ -14,7 +14,7 @@ public class HeroDaoService {
     static {
         heroes.add(new Hero(1, "Peter Parker", "Spiderman", new Date()));
         heroes.add(new Hero(2, "Tony Stark", "Ironman", new Date()));
-        heroes.add(new Hero(1, "Bruce Banner", "Hulk", new Date()));
+        heroes.add(new Hero(3, "Bruce Banner", "Hulk", new Date()));
     }
 
     private static int counter = 3;

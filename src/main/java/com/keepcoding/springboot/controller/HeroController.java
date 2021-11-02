@@ -33,6 +33,13 @@ public class HeroController {
         return result;
     }
 
+    @DeleteMapping ("/hero/{id}")
+    public void deleteHeroById(@PathVariable int id) {
+        boolean result =  heroDaoService.deleteHero(id);
+        if (!result) {
+            throw new HeroNotFoundException("El héroe con id " + " no existe.");
+        }
+    }
 
     //POST
     //Devolver estado 201:Created
