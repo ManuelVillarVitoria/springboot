@@ -2,6 +2,7 @@ package com.keepcoding.springboot.controller;
 
 import com.keepcoding.springboot.dao.HeroDaoService;
 import com.keepcoding.springboot.model.Hero;
+import com.keepcoding.springboot.model.HeroNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,13 @@ public class HeroController {
 
     @GetMapping("/hero/{id}")
     public Hero findHeroById(@PathVariable int id) {
-        return heroDaoService.findHeroById(id);
+        Hero result =  heroDaoService.findHeroById(id);
+        if ( result == null) {
+            throw new HeroNotFoundException("El héroe con id " + " no existe.");
+        }
+        return result;
     }
+
 
     //POST
     //Devolver estado 201:Created
