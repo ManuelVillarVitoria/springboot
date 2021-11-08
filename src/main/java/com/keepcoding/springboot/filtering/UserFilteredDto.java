@@ -1,11 +1,11 @@
 package com.keepcoding.springboot.filtering;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFilter;
 
+@JsonFilter("UserFilter")
 public class UserFilteredDto {
     private int id;
     private String name;
-    @JsonIgnore
     private String password;
 
     public UserFilteredDto() {
