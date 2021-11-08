@@ -2,14 +2,15 @@ package com.keepcoding.springboot.controller;
 
 import com.keepcoding.springboot.dao.HeroDaoService;
 import com.keepcoding.springboot.model.Hero;
-import com.keepcoding.springboot.model.HeroNotFoundException;
+import com.keepcoding.springboot.exceptions.HeroNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.PipedOutputStream;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class HeroController {
     //Devolver estado 201:Created
     //Devolver URI del nuevo recurso creado
     @PostMapping("/hero")
-    public ResponseEntity<Object> addHero(@RequestBody Hero hero) {
+    public ResponseEntity<Object> addHero(@RequestBody @Valid Hero hero, BindingResult result) {
         Hero addedHero =  heroDaoService.addHero(hero);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
