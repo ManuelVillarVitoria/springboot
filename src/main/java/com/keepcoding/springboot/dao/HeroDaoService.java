@@ -1,14 +1,15 @@
 package com.keepcoding.springboot.dao;
 
 import com.keepcoding.springboot.model.Hero;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-public class HeroDaoService {
+@Qualifier("dao")
+public class HeroDaoService implements HeroService {
 
-    private static int id;
     private static List<Hero> heroes= new ArrayList<>();
 
     static {
@@ -19,12 +20,12 @@ public class HeroDaoService {
 
     private static int counter = 3;
 
-    //Obtener todos los heroes
+    @Override
     public List<Hero> findAll(){
         return  heroes;
     }
 
-    //Obtener un heroe en concreto
+    @Override
     public Hero findHeroById(int id) {
         Hero result = null;
         for(Hero hero: heroes) {
@@ -35,24 +36,22 @@ public class HeroDaoService {
         return result;
     }
 
-    //Añadir un heroe
+    @Override
     public Hero addHero(Hero hero) {
         hero.setId(++counter);
         heroes.add(hero);
         return hero;
     }
 
-    //Borrar un heroe
-    public boolean deleteHero(int id) {
+    @Override
+    public void deleteHero(int id) {
         Iterator<Hero> heroIterator = heroes.iterator();
         Hero heroToRemove = null;
         do {
             heroToRemove = heroIterator.next();
             if(heroToRemove.getId() == id) {
                 heroIterator.remove();
-                return true;
             }
         } while(heroIterator.hasNext());
-        return  false;
     }
 }

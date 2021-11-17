@@ -1,12 +1,12 @@
 package com.keepcoding.springboot.controller;
 
-import com.keepcoding.springboot.dao.HeroDaoService;
+import com.keepcoding.springboot.dao.HeroService;
 import com.keepcoding.springboot.model.Hero;
 import com.keepcoding.springboot.exceptions.HeroNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -18,16 +18,17 @@ import java.util.List;
 public class HeroController {
 
     @Autowired
-    private HeroDaoService heroDaoService;
+    @Qualifier("jpa")
+    public HeroService heroService;
 
     @GetMapping("/hero")
     public List<Hero> findAllHeroes() {
-        return heroDaoService.findAll();
+        return heroService.findAll();
     }
 
     @GetMapping("/hero/{id}")
     public Hero findHeroById(@PathVariable int id) {
-        Hero result =  heroDaoService.findHeroById(id);
+        Hero result =  heroService.findHeroById(id);
         if ( result == null) {
             throw new HeroNotFoundException("El héroe con id " + " no existe.");
         }
@@ -36,21 +37,21 @@ public class HeroController {
 
     @DeleteMapping ("/hero/{id}")
     public void deleteHeroById(@PathVariable int id) {
-        boolean result =  heroDaoService.deleteHero(id);
-        if (!result) {
+         Hero result =  heroService.findHeroById(id);
+        if (result == null) {
             throw new HeroNotFoundException("El héroe con id " + " no existe.");
         }
+        heroService.deleteHero(id);
     }
 
-    //POST
-    //Devolver estado 201:Created
-    //Devolver URI del nuevo recurso creado
     @PostMapping("/hero")
-    public ResponseEntity<Object> addHero(@RequestBody @Valid Hero hero, BindingResult result) {
-        Hero addedHero =  heroDaoService.addHero(hero);
+    public ResponseEntity<Object> addHero(@RequestBody @Valid Hero hero) {
+        Hero addedHero =  heroService.addHero(hero);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(addedHero.getId()).toUri();
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(addedHero.getId())
+                .toUri();
 
         return ResponseEntity.created(location).build();
     }
